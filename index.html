@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Indian Bazaar &amp; Desi Bites</title>
+    <!--
+      This is the main customer‑facing page for Indian Bazaar & Desi Bites.
+      It uses the styles defined in styles.css and the order logic in
+      script.js. Use the navigation links to jump to different sections.
+    -->
+    <meta name="description" content="Shop fresh groceries and order authentic Indian food for pickup at Indian Bazaar & Desi Bites.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Site header with brand and navigation -->
+    <header class="site-header">
+      <a class="brand-mark" href="#" aria-label="Indian Bazaar and Desi Bites home">
+        <span class="brand-emblem" aria-hidden="true">IB</span>
+        <span>
+          <strong>Indian Bazaar</strong>
+          <small>Desi Bites</small>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#groceries">Groceries</a>
+        <a href="#restaurant">Restaurant</a>
+        <a href="#order">Order</a>
+        <a href="backend-test.html">Staff</a>
+      </nav>
+    </header>
+
+    <!-- Hero section with background image and call to action -->
+    <section class="hero">
+      <!-- The main hero image lives in the assets folder. You can replace this file with your own photo. -->
+      <img class="hero-image" src="assets/hero.jpg" alt="Inside Indian Bazaar grocery store">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Welcome</p>
+        <h1>Your local grocery &amp; Indian kitchen</h1>
+        <p class="hero-copy">Fresh produce and authentic dishes ready for pickup every day.</p>
+        <div class="hero-actions">
+          <a class="primary-action" href="#order">Start your order</a>
+          <a class="secondary-action" href="#restaurant">Browse menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick strip highlighting the shop's unique selling points -->
+    <section class="quick-strip">
+      <div>
+        <strong>Fresh &amp; Local</strong>
+        <span>Quality produce and groceries every day</span>
+      </div>
+      <div>
+        <strong>Homestyle Dishes</strong>
+        <span>Taste the flavours of home‑cooked Indian food</span>
+      </div>
+      <div>
+        <strong>Easy Pickup</strong>
+        <span>Order ahead and pick up at your convenience</span>
+      </div>
+    </section>
+
+    <!-- Groceries section -->
+    <section id="groceries" class="section band-light">
+      <div class="section-heading">
+        <p class="eyebrow">Groceries</p>
+        <h2>Shop Indian Bazaar</h2>
+        <p>Find all your essentials from rice and spices to lentils and mixes.</p>
+      </div>
+      <div class="category-grid">
+        <!-- Grocery item cards. Each button has class add-item and data attributes used by script.js -->
+        <article class="item-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Basmati_Rice_1.jpg" alt="Basmati Rice (5 lb)">
+          <h3>Basmati Rice (5&nbsp;lb)</h3>
+          <p>Long‑grain aromatic rice imported from India.</p>
+          <button class="add-item" type="button" data-item="Basmati Rice (5 lb)" data-list="grocery">Add</button>
+        </article>
+        <article class="item-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Turmeric-powder.jpg" alt="Turmeric Powder (250 g)">
+          <h3>Turmeric Powder (250&nbsp;g)</h3>
+          <p>Pure turmeric powder for vibrant curries.</p>
+          <button class="add-item" type="button" data-item="Turmeric Powder (250 g)" data-list="grocery">Add</button>
+        </article>
+        <article class="item-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Garam_Masala_1.jpg" alt="Garam Masala (100 g)">
+          <h3>Garam Masala (100&nbsp;g)</h3>
+          <p>A fragrant blend of spices essential for Indian cooking.</p>
+          <button class="add-item" type="button" data-item="Garam Masala (100 g)" data-list="grocery">Add</button>
+        </article>
+        <article class="item-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/3_types_of_lentil.jpg" alt="Mixed Lentils (1 kg)">
+          <h3>Mixed Lentils (1&nbsp;kg)</h3>
+          <p>A mix of red, green and brown lentils perfect for dal.</p>
+          <button class="add-item" type="button" data-item="Mixed Lentils (1 kg)" data-list="grocery">Add</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Restaurant section -->
+    <section id="restaurant" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Restaurant</p>
+        <h2>Order from Desi Bites</h2>
+        <p>Enjoy our most popular Indian dishes prepared fresh every day.</p>
+      </div>
+      <div class="menu-layout">
+        <div class="menu-list">
+          <!-- Each menu row displays a dish with an add button on the right -->
+          <div class="menu-row">
+            <div>
+              <h3>Chicken Biryani</h3>
+              <p>Fragrant basmati rice cooked with spiced chicken.</p>
+            </div>
+            <button class="add-item compact" type="button" data-item="Chicken Biryani" data-list="restaurant">Add</button>
+          </div>
+          <div class="menu-row">
+            <div>
+              <h3>Vegetable Samosa (3 pcs)</h3>
+              <p>Crispy pastry pockets stuffed with spiced potatoes and peas.</p>
+            </div>
+            <button class="add-item compact" type="button" data-item="Vegetable Samosa (3 pcs)" data-list="restaurant">Add</button>
+          </div>
+          <div class="menu-row">
+            <div>
+              <h3>Butter Chicken</h3>
+              <p>Tender chicken pieces in a creamy tomato gravy.</p>
+            </div>
+            <button class="add-item compact" type="button" data-item="Butter Chicken" data-list="restaurant">Add</button>
+          </div>
+          <div class="menu-row">
+            <div>
+              <h3>Naan Bread (2 pcs)</h3>
+              <p>Soft and fluffy bread baked in a tandoor oven.</p>
+            </div>
+            <button class="add-item compact" type="button" data-item="Naan Bread (2 pcs)" data-list="restaurant">Add</button>
+          </div>
+          <div class="menu-row">
+            <div>
+              <h3>Chana Masala</h3>
+              <p>Chickpeas simmered in a tangy tomato‑onion gravy.</p>
+            </div>
+            <button class="add-item compact" type="button" data-item="Chana Masala" data-list="restaurant">Add</button>
+          </div>
+        </div>
+        <aside class="feature-panel">
+          <h3>Catering &amp; Events</h3>
+          <p>Hosting a gathering? We cater small and large events. Contact us to customise your menu.</p>
+          <a class="text-link" href="#order">Request catering</a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Order form and summary section -->
+    <section id="order" class="section band-strong">
+      <div class="section-heading">
+        <p class="eyebrow">Order</p>
+        <h2>Place your order</h2>
+        <p>Fill out your details and review your selected items. Payment is handled at pickup.</p>
+      </div>
+      <div class="order-shell">
+        <!-- Order form collects customer information -->
+        <form id="order-form" class="order-form" autocomplete="off">
+          <fieldset class="segmented-field">
+            <legend>Order type</legend>
+            <label>
+              <input type="radio" name="orderType" value="Grocery pickup">
+              <span>Groceries</span>
+            </label>
+            <label>
+              <input type="radio" name="orderType" value="Restaurant pickup">
+              <span>Restaurant</span>
+            </label>
+            <label>
+              <input type="radio" name="orderType" value="Catering inquiry">
+              <span>Catering</span>
+            </label>
+          </fieldset>
+          <div class="form-grid">
+            <label>
+              Name
+              <input type="text" name="customerName" required>
+            </label>
+            <label>
+              Phone
+              <input type="tel" name="customerPhone" required>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
+              Pickup date
+              <input type="date" name="pickupDate">
+            </label>
+            <label>
+              Pickup time
+              <input type="time" name="pickupTime">
+            </label>
+          </div>
+          <label>
+            Notes
+            <textarea name="notes" rows="3" placeholder="Any special instructions"></textarea>
+          </label>
+          <div class="submit-row">
+            <button class="primary-action" type="submit">Place order</button>
+            <p>Your order will be sent to our staff. Payment will be handled when you pick up.</p>
+          </div>
+        </form>
+        <!-- Order summary shows selected items and output message -->
+        <aside class="order-summary">
+          <div class="summary-top">
+            <div>
+              <p class="eyebrow">Summary</p>
+              <h3>Selected items</h3>
+            </div>
+            <button class="secondary-action clear-button" type="button" id="clear-order">Clear all</button>
+          </div>
+          <ul id="selected-items" class="selected-items">
+            <li class="empty-state">Add grocery or restaurant items to start.</li>
+          </ul>
+          <div id="request-output" class="request-output" hidden>
+            <h4>Order message</h4>
+            <pre id="request-text"></pre>
+            <div class="output-actions">
+              <button class="secondary-action copy-button" type="button" id="copy-request">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 12h6"></path>
+                  <path d="M9 16h6"></path>
+                  <path d="M9 8h6"></path>
+                  <path d="M4 6h16"></path>
+                  <path d="M4 6v12c0 1.1.9 2 2 2h8l6-6V8c0-1.1-.9-2-2-2H4z"></path>
+                </svg>
+                <span>Copy</span>
+              </button>
+              <a class="secondary-action" id="email-request" href="#" target="_blank">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 4h16v16H4z"></path>
+                  <path d="M22 6l-10 7L2 6"></path>
+                </svg>
+                <span>Email</span>
+              </a>
+              <a class="secondary-action" id="whatsapp-request" href="#" target="_blank">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21.5 3.5a12 12 0 1 1-20 9.2L1 21l8.5-2.2A12 12 0 0 1 21.5 3.5Z"></path>
+                  <path d="m16.5 12.5-2.74-0.34a3.1 3.1 0 0 1-2.38-2.15l-0.47-1.82"></path>
+                </svg>
+                <span>WhatsApp</span>
+              </a>
+            </div>
+            <p id="submission-status" class="submission-status"></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Contact section -->
+    <section class="section band-light">
+      <div class="contact-section">
+        <div class="contact-copy">
+          <p class="eyebrow">Contact</p>
+          <h2>Get in touch</h2>
+          <p>Call us or send a message for any questions or special requests.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>Visit us</h3>
+            <p>123 Main St, Plymouth, MN</p>
+          </div>
+          <div class="contact-card">
+            <h3>Call us</h3>
+            <p><a href="tel:7639006635">(763) 900‑6635</a></p>
+          </div>
+          <div class="contact-card">
+            <h3>Email</h3>
+            <p><a href="mailto:orders@indianbazaar.example">orders@indianbazaar.example</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Site footer -->
+    <footer class="site-footer">
+      <p>&copy; 2026 Indian Bazaar &amp; Desi Bites</p>
+      <span>
+        <a href="#groceries">Groceries</a>
+        <a href="#restaurant">Restaurant</a>
+        <a href="#order">Order</a>
+        <a href="backend-test.html">Staff</a>
+      </span>
+    </footer>
+
+    <!-- Config contains business information and backend URL -->
+    <script src="config.js"></script>
+    <!-- Core functionality for adding items and submitting orders -->
+    <script src="script.js"></script>
+  </body>
+</html>

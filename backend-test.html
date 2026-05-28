@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order Manager Link</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      body { background: #f6f3ea; }
+      main {
+        width: min(760px, calc(100% - 2rem));
+        margin: 3rem auto;
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+      h1 { margin: 0 0 1rem; font-size: clamp(2rem, 7vw, 3.4rem); line-height: 1; }
+      code {
+        display: block;
+        margin: 1rem 0;
+        padding: 0.85rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: #fff7e8;
+        border: 1px solid #efd7ac;
+        border-radius: var(--radius);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Staff setup</p>
+      <h1>Order manager link</h1>
+      <p>The live staff order manager opens from Google Apps Script.</p>
+      <code id="backend-url">Loading config...</code>
+      <a class="primary-action" id="open-backend" href="#" target="_blank" rel="noreferrer">Open staff order manager</a>
+      <p>If the link opens a page titled <strong>Order manager</strong>, the backend is working.</p>
+    </main>
+
+    <script src="config.js?v=4"></script>
+    <script>
+      const config = window.ORDER_APP_CONFIG || {};
+      const output = document.querySelector("#backend-url");
+      const link = document.querySelector("#open-backend");
+
+      if (config.backendUrl) {
+        output.textContent = config.backendUrl;
+        link.href = config.backendUrl;
+      } else {
+        output.textContent = "config.js does not have a backendUrl yet.";
+        link.removeAttribute("href");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+var SHEET_NAME="Orders";
+var ADMIN_KEY="CHANGE_THIS_ADMIN_KEY";
+var HEADERS=["id","createdAt","updatedAt","status","orderType","customerName","customerPhone","pickupDate","pickupTime","itemsJson","notes","cancelReason"];
+
+function doGet(e){
+  var p=e.parameter||{};
+  if(p.action==="create"){createOrder(p);return HtmlService.createHtmlOutput("OK");}
+  return HtmlService.createHtmlOutput(adminHtml()).setTitle("Indian Bazaar Orders");
+}
+
+function setupSheet(){getOrderSheet();}
+
+function createOrder(p){
+  var payload=JSON.parse(p.payload||"{}"),now=new Date().toISOString();
+  var order={id:payload.id||"IB-"+Utilities.getUuid().slice(0,8).toUpperCase(),createdAt:payload.createdAt||now,updatedAt:now,status:"New",orderType:payload.orderType||"Pickup",customerName:payload.customerName||"",customerPhone:payload.customerPhone||"",pickupDate:payload.pickupDate||"",pickupTime:payload.pickupTime||"",items:Array.isArray(payload.items)?payload.items:[],notes:payload.notes||"",cancelReason:""};
+  getOrderSheet().appendRow(toRow(order));
+  return order;
+}
+
+function listOrders(key){
+  checkKey(key);
+  var v=getOrderSheet().getDataRange().getValues();
+  if(v.length<=1)return[];
+  return v.slice(1).map(toOrder).sort(function(a,b){return new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime();});
+}
+
+function updateOrder(key,id,status,reason){
+  checkKey(key);
+  var s=getOrderSheet(),v=s.getDataRange().getValues();
+  for(var i=1;i<v.length;i++){if(v[i][0]===id){var o=toOrder(v[i]);o.status=status;o.updatedAt=new Date().toISOString();o.cancelReason=status==="Cancelled"?(reason||""):"";s.getRange(i+1,1,1,HEADERS.length).setValues([toRow(o)]);return o;}}
+  throw new Error("Order not found.");
+}
+
+function checkKey(key){if(key!==ADMIN_KEY)throw new Error("Invalid admin key.");}
+
+function getOrderSheet(){
+  var ss=SpreadsheetApp.getActiveSpreadsheet(),s=ss.getSheetByName(SHEET_NAME)||ss.insertSheet(SHEET_NAME),r=s.getRange(1,1,1,HEADERS.length).getValues()[0];
+  if(r.join("|")!==HEADERS.join("|")){s.getRange(1,1,1,HEADERS.length).setValues([HEADERS]);s.setFrozenRows(1);}
+  return s;
+}
+
+function toRow(o){return[o.id,o.createdAt,o.updatedAt,o.status,o.orderType,o.customerName,o.customerPhone,o.pickupDate,o.pickupTime,JSON.stringify(o.items||[]),o.notes,o.cancelReason||""];}
+function toOrder(r){var items=[];try{items=JSON.parse(r[9]||"[]");}catch(err){}return{id:r[0],createdAt:r[1],updatedAt:r[2],status:r[3],orderType:r[4],customerName:r[5],customerPhone:r[6],pickupDate:r[7],pickupTime:r[8],items:items,notes:r[10],cancelReason:r[11]||""};}
+
+function adminHtml(){return `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+body{font-family:Arial,sans-serif;margin:0;background:#f7f3ea;color:#1e1f1c}.top{padding:18px 22px;background:#fffaf0;border-bottom:1px solid #ddd3bf;display:flex;justify-content:space-between;gap:12px;align-items:center}main{padding:22px;display:grid;gap:16px}h1{font-size:42px;line-height:1;margin:0}.controls{display:grid;grid-template-columns:1fr auto;gap:10px;background:white;border:1px solid #ddd3bf;border-radius:8px;padding:14px}input{padding:12px;border:1px solid #ddd3bf;border-radius:8px;font:inherit}button{padding:10px 12px;border:1px solid #1f6f43;border-radius:8px;background:#1f6f43;color:white;font-weight:700;cursor:pointer}.orders{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}.card{background:white;border:1px solid #ddd3bf;border-left:5px solid #1f6f43;border-radius:8px;padding:14px;display:grid;gap:10px}.pill{display:inline-block;background:#1f6f43;color:white;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:700}.items{margin:0;padding:0;list-style:none}.items li{display:flex;justify-content:space-between;background:#fff7e8;border:1px solid #efd7ac;border-radius:8px;padding:8px;margin-top:6px}.actions{display:flex;flex-wrap:wrap;gap:8px}.cancel{background:#a93d32;border-color:#a93d32}.muted{color:#606358}.error{color:#a93d32;font-weight:700}@media(max-width:600px){.controls{grid-template-columns:1fr}h1{font-size:32px}}
+</style></head><body><div class="top"><strong>Indian Bazaar & Desi Bites</strong><button onclick="loadOrders()">Refresh</button></div><main><h1>Order manager</h1><div class="controls"><input id="key" type="password" placeholder="Admin key"><button onclick="loadOrders()">Load orders</button></div><p id="status" class="muted">Enter admin key to load orders.</p><section id="orders" class="orders"></section></main><script>
+var orders=[];function status(t,c){var el=document.getElementById('status');el.textContent=t;el.className=c||'muted'}
+function loadOrders(){var key=document.getElementById('key').value;status('Loading...');google.script.run.withSuccessHandler(function(data){orders=data;render();status(data.length+' orders loaded.')}).withFailureHandler(function(e){status(e.message,'error')}).listOrders(key)}
+function render(){var root=document.getElementById('orders');root.innerHTML='';if(!orders.length){root.innerHTML='<p class="muted">No orders yet.</p>';return}orders.forEach(function(o){var card=document.createElement('article');card.className='card';var items=(o.items||[]).map(function(i){return '<li><span>'+esc(i.name)+'</span><strong>x '+esc(i.quantity)+'</strong></li>'}).join('')||'<li>See notes</li>';card.innerHTML='<div><span class="pill">'+esc(o.status)+'</span><h2>'+esc(o.customerName||'Customer')+'</h2><p class="muted">'+esc(o.id)+' • '+esc(o.orderType)+'</p></div><p><strong>Phone:</strong> '+esc(o.customerPhone||'')+'</p><p><strong>Pickup:</strong> '+esc((o.pickupDate||'No date')+' '+(o.pickupTime||'No time'))+'</p><ul class="items">'+items+'</ul><p><strong>Notes:</strong> '+esc(o.notes||'none')+'</p><p class="error">'+(o.cancelReason?'Cancel reason: '+esc(o.cancelReason):'')+'</p><div class="actions"><button onclick="setOrder(\\''+o.id+'\\',\\'Accepted\\')">Accept</button><button onclick="setOrder(\\''+o.id+'\\',\\'Ready\\')">Ready</button><button onclick="setOrder(\\''+o.id+'\\',\\'Completed\\')">Complete</button><button class="cancel" onclick="setOrder(\\''+o.id+'\\',\\'Cancelled\\')">Cancel</button></div>';root.appendChild(card)})}
+function setOrder(id,next){var key=document.getElementById('key').value;var reason=next==='Cancelled'?(prompt('Cancel reason')||''):'';status('Updating...');google.script.run.withSuccessHandler(function(updated){orders=orders.map(function(o){return o.id===updated.id?updated:o});render();status('Order '+id+' marked '+next+'.')}).withFailureHandler(function(e){status(e.message,'error')}).updateOrder(key,id,next,reason)}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]})}
+</script></body></html>`}
